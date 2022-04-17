@@ -3,6 +3,7 @@ drop table if exists Category;
 drop table if exists Bid;
 drop table if exists User;
 
+
 create table Item (
     ItemID integer primary key,
     Name varchar(256),
