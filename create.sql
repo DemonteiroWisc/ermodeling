@@ -14,7 +14,7 @@ create table Item (
     Ends varchar(256),
     Description varchar(1000),
     SellerID varchar(256),
-    foreign key(SellerID) references Users(UserID)
+    foreign key(SellerID) references User(UserID)
 );
 
 create table Category (
