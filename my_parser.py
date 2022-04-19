@@ -107,8 +107,8 @@ def parseJson(json_file):
                 itemL += "{}|".format(transformDollar(item["Buy_Price"]))
             else:
                 itemL += "null|"
-            itemL += "{}|{}|{}|{}|{}\n".format(transformDollar(item["First_Bid"]),
-					item["Number_of_Bids"], item["Started"], item["Ends"], seller["UserID"]);
+            itemL += "{}|{}|{}|{}|{}|{}\n".format(transformDollar(item["First_Bid"]),
+					item["Number_of_Bids"], item["Started"], item["Ends"], item["Description"], seller["UserID"]);
             itemF.write(itemL)
             # use set() to find unique categories
             for category in list(set(item["Category"])):
