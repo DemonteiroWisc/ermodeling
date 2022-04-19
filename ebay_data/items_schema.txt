@@ -69,7 +69,7 @@
 								},
 								"Country": {
 									"description": "Country of bidder",
-									"type": "string", 
+									"type": "string",
 									"minimum": 0
 								},
 								"UserID": {

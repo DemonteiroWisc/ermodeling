@@ -76,13 +76,49 @@ of the necessary SQL tables for your database.
 def parseJson(json_file):
     with open(json_file, 'r') as f:
         items = loads(f.read())['Items'] # creates a Python dictionary of Items for the supplied json file
+        itemF = open("item.dat", 'a')
+        catF = open("cat.dat", 'a')
+        bidF = open("bid.dat", 'a')
+        userF = open("user.dat", 'a')
         for item in items:
             """
-            TODO: traverse the items dictionary to extract information from the
+            TODO: traverse the items dictionary  extract information from the
             given `json_file' and generate the necessary .dat files to generate
             the SQL tables based on your relation design
             """
-            pass
+            seller = item["Seller"]
+            userL_S = "{}|null|null|{}\n".format(seller["UserID"], seller["Rating"])
+            userF.write(userL_S)
+            if item["Bids"]:
+                for bid_obj in item["Bids"]:
+                    bid = bid_obj["Bid"]
+                    bidder = bid["Bidder"]
+                    bidL = "{}|{}|{}|{}\n".format(item["ItemID"], bidder["UserID"], transformDttm(bid["Time"]), transformDollar(bid["Amount"]))
+                    bidF.write(bidL)
+                    userL_B = "{}|{}|".format(bidder["UserID"],bidder["Rating"])
+                    if "Location" in bidder.keys(): userL_B += "{}|".format(bidder["Location"])
+                    else: userL_B += "null|"
+                    if "Country" in bidder.keys(): userL_B += "{}\n".format(bidder["Country"])
+                    else: userL_B += "null\n"
+                    userF.write(userL_B)
+            itemL = "{}|{}|{}|".format(item["ItemID"], item["Name"],
+					transformDollar(item["Currently"]))
+            if "Buy_Price" in item.keys():
+                itemL += "{}|".format(transformDollar(item["Buy_Price"]))
+            else:
+                itemL += "null|"
+            itemL += "{}|{}|{}|{}|{}\n".format(transformDollar(item["First_Bid"]),
+					item["Number_of_Bids"], item["Started"], item["Ends"], seller["UserID"]);
+            itemF.write(itemL)
+            # use set() to find unique categories
+            for category in list(set(item["Category"])):
+                catL = "{}|{}\n".format(item["ItemID"], category)
+                catF.write(catL)
+        itemF.close()
+        catF.close()
+        bidF.close()
+        userF.close()
+
 
 """
 Loops through each json files provided on the command line and passes each file
@@ -96,7 +132,7 @@ def main(argv):
     for f in argv[1:]:
         if isJson(f):
             parseJson(f)
-            print "Success parsing " + f
+            print("Success parsing " + f)
 
 if __name__ == '__main__':
     main(sys.argv)
