@@ -1,0 +1,24 @@
+.separator |
+.import item.dat Item
+update Item set ItemID = null where ItemID = 'null';
+update Item set Name = null where Name = 'null';
+update Item set Buy_Price = null where Buy_Price = 'null';
+update Item set First_Bid = null where First_Bid = 'null';
+update Item set Number_of_Bids = null where Number_of_Bids = 'null';
+update Item set Started = null where Started = 'null';
+update Item set Ends = null where Ends = 'null';
+update Item set Description = null where Description = 'null';
+update Item set SellerID = null where SellerID = 'null';
+.import cat.dat Category
+update Category set ItemID = null where ItemID = 'null';
+update Category set Description = null where Description = 'null';
+.import bid.dat Bid
+update Bid set ItemID = null where ItemID = 'null';
+update Bid set BidderID = null where BidderID = 'null';
+update Bid set Time = null where Time = 'null';
+update Bid set Amount = null where Amount = 'null';
+.import user.dat User
+update User set UserID = null where UserID = 'null';
+update User set Location = null where Location = 'null';
+update User set Country = null where Country = 'null';
+update User set Rating = null where Rating = 'null';
