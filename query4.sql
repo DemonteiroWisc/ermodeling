@@ -1,0 +1,4 @@
+SELECT ItemID
+FROM Item
+GROUP BY ItemID
+HAVING MAX(Currently)
