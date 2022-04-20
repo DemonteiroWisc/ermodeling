@@ -1,5 +1,2 @@
-dataFile="*.dat"
-if [-f dataFile] then 
-rm item.dat user.dat 
-fi
-python my_parser.py ebay_data/items-*.json
+ rm -f -- item.dat bid.dat user.dat cat.dat
+ python3 my_parser.py ebay_data/items-*.json

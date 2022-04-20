@@ -1,3 +1,9 @@
+WITH Sellers as(
+    SELECT DISTINCT SellerID as ID
+    FROM Item),
+Bidders as(
+    SELECT DISTINCT BidderID as ID
+    FROM Bid)
 SELECT COUNT(*)
-FROM Item, Bid, User
-WHERE Item.SellerID = User.UserID AND Bid.BidderID = User.UserID
+FROM Bidders, Sellers
+WHERE Sellers.ID = Bidders.ID

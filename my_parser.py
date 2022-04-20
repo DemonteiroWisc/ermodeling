@@ -92,7 +92,8 @@ def parseJson(json_file):
             the SQL tables based on your relation design
             """
             seller = item["Seller"]
-            userL_S = "{}|null|null|{}\n".format(transformStr(seller["UserID"]), seller["Rating"])
+            userL_S = "{}|{}|{}|{}\n".format(transformStr(seller["UserID"]), transformStr(item["Location"]),
+                                             transformStr(item["Country"]), seller["Rating"])
             userF.write(userL_S)
             if item["Bids"]:
                 for bid_obj in item["Bids"]:
@@ -101,11 +102,12 @@ def parseJson(json_file):
                     userID = transformStr(bidder["UserID"])
                     bidL = "{}|{}|{}|{}\n".format(item["ItemID"], userID, transformDttm(bid["Time"]), transformDollar(bid["Amount"]))
                     bidF.write(bidL)
-                    userL_B = "{}|{}|".format(userID,bidder["Rating"])
+                    userL_B = "{}|".format(userID)
                     if "Location" in bidder.keys(): userL_B += "{}|".format(transformStr(bidder["Location"]))
                     else: userL_B += "null|"
-                    if "Country" in bidder.keys(): userL_B += "{}\n".format(transformStr(bidder["Country"]))
-                    else: userL_B += "null\n"
+                    if "Country" in bidder.keys(): userL_B += "{}".format(transformStr(bidder["Country"]))
+                    else: userL_B += "null"
+                    userL_B += "|{}\n".format(bidder["Rating"])
                     userF.write(userL_B)
             itemL = "{}|{}|{}|".format(item["ItemID"], transformStr(item["Name"]),
 					transformDollar(item["Currently"]))

@@ -1,3 +1,6 @@
+WITH Sellers as(
+    SELECT DISTINCT SellerID as ID
+    FROM Item)
 SELECT COUNT(*)
-FROM Item, User
-WHERE Item.SellerID = User.UserID AND User.Rating > 1000
+FROM Sellers, User
+WHERE Sellers.ID = User.UserID AND User.Rating > 1000
