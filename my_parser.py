@@ -69,6 +69,8 @@ def transformDollar(money):
     return sub(r'[^\d.]', '', money)
 
 def transformStr(string):
+    if string == None or len(string) == 0:
+        return string
     return "\"{}\"".format(string.replace("\"", "\"\""))
 
 """
@@ -99,7 +101,7 @@ def parseJson(json_file):
                     userID = transformStr(bidder["UserID"])
                     bidL = "{}|{}|{}|{}\n".format(item["ItemID"], userID, transformDttm(bid["Time"]), transformDollar(bid["Amount"]))
                     bidF.write(bidL)
-                    userL_B = "{}|{}|".userID,bidder["Rating"])
+                    userL_B = "{}|{}|".format(userID,bidder["Rating"])
                     if "Location" in bidder.keys(): userL_B += "{}|".format(transformStr(bidder["Location"]))
                     else: userL_B += "null|"
                     if "Country" in bidder.keys(): userL_B += "{}\n".format(transformStr(bidder["Country"]))
@@ -112,7 +114,8 @@ def parseJson(json_file):
             else:
                 itemL += "null|"
             itemL += "{}|{}|{}|{}|{}|{}\n".format(transformDollar(item["First_Bid"]),
-					item["Number_of_Bids"], transformDttm(item["Started"]), transformDttm(item["Ends"]), item["Description"], seller["UserID"]);
+					item["Number_of_Bids"], transformDttm(item["Started"]), transformDttm(item["Ends"]),
+                    transformStr(item["Description"]), transformStr(seller["UserID"]));
             itemF.write(itemL)
             # use set() to find unique categories
             for category in list(set(item["Category"])):
