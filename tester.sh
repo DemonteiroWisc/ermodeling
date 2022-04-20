@@ -13,9 +13,18 @@ echo "Loading Database ..."
 sqlite3 ebay < load.txt
 echo "Done loading database!"
 # run the 7 queries on the database, which prints their output into the console
-for i in {1..7}
-do
-    echo "Query $i:"
-    sqlite3 ebay < query$i.sql
-done
+echo "Query 1:"
+sqlite3 ebay < query1.sql
+echo "Query 2:"
+sqlite3 ebay < query2.sql
+echo "Query 3:"
+sqlite3 ebay < query3.sql
+echo "Query 4:"
+sqlite3 ebay < query4.sql
+echo "Query 5:"
+sqlite3 ebay < query5.sql
+echo "Query 6:"
+sqlite3 ebay < query6.sql
+echo "Query 7:"
+sqlite3 ebay < query7.sql
 rm -f -- item.dat bid.dat user.dat cat.dat
