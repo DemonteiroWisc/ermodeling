@@ -4,3 +4,9 @@ WITH CatCount as (SELECT ItemID, COUNT(*) as c
 SELECT COUNT(*)
 FROM CatCount
 WHERE c = 4;
+
+#Q4
+WITH topItems as (
+    SELECT MAX(Currently), ItemID
+    FROM Item
+    GROUP BY ItemID
