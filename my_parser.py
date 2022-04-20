@@ -68,6 +68,9 @@ def transformDollar(money):
         return money
     return sub(r'[^\d.]', '', money)
 
+def transformStr(string):
+    return "\"{}\"".format(string.replace("\"", "\"\""))
+
 """
 Parses a single json file. Currently, there's a loop that iterates over each
 item in the data set. Your job is to extend this functionality to create all
@@ -87,21 +90,22 @@ def parseJson(json_file):
             the SQL tables based on your relation design
             """
             seller = item["Seller"]
-            userL_S = "{}|null|null|{}\n".format(seller["UserID"], seller["Rating"])
+            userL_S = "{}|null|null|{}\n".format(transformStr(seller["UserID"]), seller["Rating"])
             userF.write(userL_S)
             if item["Bids"]:
                 for bid_obj in item["Bids"]:
                     bid = bid_obj["Bid"]
                     bidder = bid["Bidder"]
-                    bidL = "{}|{}|{}|{}\n".format(item["ItemID"], bidder["UserID"], transformDttm(bid["Time"]), transformDollar(bid["Amount"]))
+                    userID = transformStr(bidder["UserID"])
+                    bidL = "{}|{}|{}|{}\n".format(item["ItemID"], userID, transformDttm(bid["Time"]), transformDollar(bid["Amount"]))
                     bidF.write(bidL)
-                    userL_B = "{}|{}|".format(bidder["UserID"],bidder["Rating"])
-                    if "Location" in bidder.keys(): userL_B += "{}|".format(bidder["Location"])
+                    userL_B = "{}|{}|".userID,bidder["Rating"])
+                    if "Location" in bidder.keys(): userL_B += "{}|".format(transformStr(bidder["Location"]))
                     else: userL_B += "null|"
-                    if "Country" in bidder.keys(): userL_B += "{}\n".format(bidder["Country"])
+                    if "Country" in bidder.keys(): userL_B += "{}\n".format(transformStr(bidder["Country"]))
                     else: userL_B += "null\n"
                     userF.write(userL_B)
-            itemL = "{}|{}|{}|".format(item["ItemID"], item["Name"],
+            itemL = "{}|{}|{}|".format(item["ItemID"], transformStr(item["Name"]),
 					transformDollar(item["Currently"]))
             if "Buy_Price" in item.keys():
                 itemL += "{}|".format(transformDollar(item["Buy_Price"]))
@@ -112,7 +116,7 @@ def parseJson(json_file):
             itemF.write(itemL)
             # use set() to find unique categories
             for category in list(set(item["Category"])):
-                catL = "{}|{}\n".format(item["ItemID"], category)
+                catL = "{}|{}\n".format(item["ItemID"], transformStr(category))
                 catF.write(catL)
         itemF.close()
         catF.close()
