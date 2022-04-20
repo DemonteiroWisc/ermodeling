@@ -1,5 +1,6 @@
 #!/bin/bash
 #this command parses the ebay_data folder and creates .dat files which are stored in this scripts directory
+rm -f -- ebay
 clear
 sh ./runParser.sh
 sort -u user.dat -o user.dat
